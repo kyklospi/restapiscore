@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data transfer object for a parsed OpenAPI document together with its operations.
+ *
+ * <p>Operations are collected in a list for easy iteration, and each operation is wrapped in an {@link OperationRef}
+ * that provides the HTTP method, path template, enclosing path item.
+ */
 public class ApiModel {
     private final OpenAPI openApi;
     private final List<OperationRef> operations;
