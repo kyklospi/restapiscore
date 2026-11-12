@@ -17,4 +17,14 @@ public record OperationRef(PathItem.HttpMethod method, String path, PathItem pat
     public String describe() {
         return method.name() + " " + path;
     }
+
+    /** JSON pointer to the operation, for example {@code #/paths/~1users~1{id}/get}. */
+    public String pointer() {
+        return JsonPointers.operation(path, method.name());
+    }
+
+    /** Location of the operation in the OpenAPI document. */
+    public Location location() {
+        return new Location(pointer());
+    }
 }
