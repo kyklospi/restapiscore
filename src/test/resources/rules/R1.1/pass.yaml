@@ -5,3 +5,4 @@ paths:
   /users/{id}: {get: {responses: {'200': {description: OK}}}}
   /settings: {get: {responses: {'200': {description: OK}}}}
   /addresses: {get: {responses: {'200': {description: OK}}}}
+  /users/{id}/register: {post: {responses: {'200': {description: OK}}}}

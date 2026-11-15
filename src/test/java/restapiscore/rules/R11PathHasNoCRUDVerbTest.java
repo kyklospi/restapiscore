@@ -7,24 +7,27 @@ import restapiscore.spec.SpecLoader;
 
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class R11PathHasNoVerbTest {
+class R11PathHasNoCRUDVerbTest {
+
     private ElementCounter run(String fileName) throws Exception {
         URL resource = getClass().getResource("/rules/R1.1/" + fileName);
         Assertions.assertNotNull(resource);
         Path file = Path.of(resource.toURI());
         SpecLoader.ParsedResult result = SpecLoader.load(file);
-        return new R11PathHasNoVerb().evaluate(new ApiModel(result.openApi()));
+        return new R11PathHasNoCRUDVerb().evaluate(new ApiModel(result.openApi()));
     }
 
     @Test
     void passFileHasNoViolations() throws Exception {
         ElementCounter counter = run("pass.yaml");
-        assertEquals(4, counter.checked());
-        assertEquals(4, counter.compliant());
+        assertEquals(5, counter.checked());
+        assertEquals(5, counter.compliant());
         assertTrue(counter.violations().isEmpty());
     }
 
@@ -40,5 +43,14 @@ class R11PathHasNoVerbTest {
     @Test
     void emptyFileChecksNothing() throws Exception {
         assertEquals(0, run("empty.yaml").checked());
+    }
+
+    @Test
+    void actionVerbIsAllowedOnlyAsLastSegment() throws Exception {
+        ElementCounter counter = run("fail.yaml");
+        List<String> pointers = counter.violations().stream()
+                .map(v -> v.location().pointer()).toList();
+
+        assertThat(pointers).contains("/paths/~1register~1users~1{id}");
     }
 }
