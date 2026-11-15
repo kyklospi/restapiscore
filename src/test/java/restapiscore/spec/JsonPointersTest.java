@@ -15,4 +15,9 @@ class JsonPointersTest {
     void buildsOperationPointer() {
         assertEquals("/paths/~1users~1{id}/get", JsonPointers.operation("/users/{id}", "GET"));
     }
+
+    @Test
+    void buildsPathPointer() {
+        assertEquals("/paths/~1users~1{id}", JsonPointers.path("/users/{id}"));
+    }
 }

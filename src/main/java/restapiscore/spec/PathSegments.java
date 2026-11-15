@@ -34,4 +34,36 @@ public class PathSegments {
     public static boolean isParameter(String segment) {
         return segment.startsWith("{") && segment.endsWith("}");
     }
+
+    /**
+     * Returns the literal segments of a path, i.e. the segments that are not parameters.
+     * e.g. from /users/{userId}/orders, the literal segments are 'users' and 'orders'.
+     * @param path the path to split
+     * @return a list of literal segments
+     */
+    public static List<String> literalSegments(String path) {
+        List<String> result = new ArrayList<>();
+        for (String segment : split(path)) {
+            if (!isParameter(segment)) {
+                result.add(segment);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns the first word of a segment, which is the part before a dash, underscore, or uppercase letter.
+     * e.g. from 'getUsers', the first word is 'get'; from 'user-id', the first word is 'user'.
+     * @param segment the segment to analyze
+     * @return the first word of the segment
+     */
+    public static String firstWord(String segment) {
+        for (int i = 0; i < segment.length(); i++) {
+            char c = segment.charAt(i);
+            if (c == '-' || c == '_' || (i > 0 && Character.isUpperCase(c))) {
+                return segment.substring(0, i).toLowerCase();
+            }
+        }
+        return segment.toLowerCase();
+    }
 }

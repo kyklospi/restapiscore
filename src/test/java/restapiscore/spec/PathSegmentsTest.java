@@ -26,4 +26,18 @@ class PathSegmentsTest {
         assertTrue(PathSegments.isParameter("{id}"));
         assertFalse(PathSegments.isParameter("users"));
     }
+
+    @Test
+    void literalSegmentsSkipParameters() {
+        assertThat(PathSegments.literalSegments("/users/{id}/orders"))
+                .containsExactly("users", "orders");
+    }
+
+    @Test
+    void firstWordIsCutAtHyphenUnderscoreOrCapital() {
+        assertThat(PathSegments.firstWord("getUsers")).isEqualTo("get");
+        assertThat(PathSegments.firstWord("user-id")).isEqualTo("user");
+        assertThat(PathSegments.firstWord("create_user")).isEqualTo("create");
+        assertThat(PathSegments.firstWord("users")).isEqualTo("users");
+    }
 }

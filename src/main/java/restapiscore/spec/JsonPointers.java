@@ -27,4 +27,12 @@ public class JsonPointers {
     public static String operation(String path, String method) {
         return "/paths/" + escape(path) + "/" + method.toLowerCase();
     }
+
+    /** Creates a JSON pointer for a path.
+     * @param path the path
+     * @return the JSON pointer
+     */
+    public static String path(String path) {
+        return "/paths/" + escape(path);
+    }
 }

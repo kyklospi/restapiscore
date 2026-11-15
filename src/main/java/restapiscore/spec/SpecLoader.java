@@ -33,7 +33,7 @@ public final class SpecLoader {
         }
     }
 
-    public ParsedResult load(Path file) {
+    public static ParsedResult load(Path file) {
         Objects.requireNonNull(file, "file");
         if (!Files.exists(file)) {
             return new ParsedResult(null, List.of("File not found: " + file));
