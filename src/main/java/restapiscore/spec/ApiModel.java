@@ -33,10 +33,10 @@ public class ApiModel {
         if (openApi.getPaths() == null) {
             return result;
         }
-        for (Map.Entry<String, PathItem> entry : openApi.getPaths().entrySet()) {
-            PathItem pathItem = entry.getValue();
+        for (Map.Entry<String, PathItem> path : openApi.getPaths().entrySet()) {
+            PathItem pathItem = path.getValue();
             for (Map.Entry<PathItem.HttpMethod, Operation> op : pathItem.readOperationsMap().entrySet()) {
-                result.add(new OperationRef(op.getKey(), entry.getKey(), pathItem, op.getValue()));
+                result.add(new OperationRef(op.getKey(), path.getKey(), pathItem, op.getValue()));
             }
         }
         return result;

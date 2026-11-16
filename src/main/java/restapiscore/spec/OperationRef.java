@@ -8,8 +8,8 @@ import io.swagger.v3.oas.models.PathItem;
  *
  * @param method    the HTTP method
  * @param path      the path template, for example {@code /users/{id}}
- * @param pathItem  the enclosing path item (for path-level parameters)
- * @param operation the operation object
+ * @param pathItem  the path item object, for example operation and parameters of the {@code /users/{id}} path
+ * @param operation the operation object, for example responses and request body of the {@code post} operation
  */
 public record OperationRef(PathItem.HttpMethod method, String path, PathItem pathItem, Operation operation) {
 
