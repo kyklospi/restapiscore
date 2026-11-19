@@ -1,5 +1,6 @@
-package restapiscore.rules;
+package restapiscore.rules.dim1;
 
+import restapiscore.rules.*;
 import restapiscore.spec.ApiModel;
 import restapiscore.spec.JsonPointers;
 import restapiscore.spec.Location;
@@ -9,8 +10,13 @@ import java.util.List;
 
 /**
  * Rule R1.1: Path has no CRUD verb.
- * Each path is compliant if no literal segment starts with a CRUD verb such as get, create or delete.
- * Name resources only with nouns and express the action through the HTTP method.
+ *
+ * <p>Element: each path. Compliant if no literal segment starts with a CRUD verb from the configured verb list.
+ *
+ * <p>Heuristic: a segment "starts with a CRUD verb" when its first word (split at hyphens, underscores and camelCase
+ * humps) equals a verb, so {@code getUsers} and {@code get-users} are violations while {@code settings} and
+ * {@code addresses} are not. Known false positives: nouns that are also verbs ({@code /run}, {@code /set},
+ * {@code /check} as in bank checks, {@code /list} as in a shopping list).
  */
 public class R11PathHasNoCRUDVerb implements Rule {
     private static final RuleCard CARD = new RuleCard(

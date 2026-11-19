@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PathSegmentsTest {
 
@@ -35,9 +34,21 @@ class PathSegmentsTest {
 
     @Test
     void firstWordIsCutAtHyphenUnderscoreOrCapital() {
-        assertThat(PathSegments.firstWord("getUsers")).isEqualTo("get");
-        assertThat(PathSegments.firstWord("user-id")).isEqualTo("user");
-        assertThat(PathSegments.firstWord("create_user")).isEqualTo("create");
-        assertThat(PathSegments.firstWord("users")).isEqualTo("users");
+        assertEquals("get", PathSegments.firstWord("getUsers"));
+        assertEquals("user", PathSegments.firstWord("user-id"));
+        assertEquals("create", PathSegments.firstWord("create_user"));
+        assertEquals("users", PathSegments.firstWord("users"));
+    }
+
+    @Test
+    void lastWordIsTheWholeSegmentIfNoSeparators() {
+        assertEquals("users", PathSegments.lastWord("users"));
+    }
+
+    @Test
+    void lastWordIsAfterLastHyphenUnderscoreOrCapital() {
+        assertEquals("users", PathSegments.lastWord("getUsers"));
+        assertEquals("id", PathSegments.lastWord("user-id"));
+        assertEquals("user", PathSegments.lastWord("create_user"));
     }
 }

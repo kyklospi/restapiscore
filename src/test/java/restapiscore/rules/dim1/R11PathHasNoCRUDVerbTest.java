@@ -1,7 +1,8 @@
-package restapiscore.rules;
+package restapiscore.rules.dim1;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import restapiscore.rules.ElementCounter;
 import restapiscore.spec.ApiModel;
 import restapiscore.spec.SpecLoader;
 
@@ -38,11 +39,14 @@ class R11PathHasNoCRUDVerbTest {
         assertEquals(1, counter.compliant());
         assertEquals(3, counter.violations().size());
         assertEquals("/paths/~1getUsers", counter.violations().getFirst().location().pointer());
+        assertEquals("/paths/~1users~1create", counter.violations().get(1).location().pointer());
+        assertEquals("/paths/~1register~1users~1{id}", counter.violations().getLast().location().pointer());
     }
 
     @Test
     void emptyFileChecksNothing() throws Exception {
         assertEquals(0, run("empty.yaml").checked());
+        assertTrue(run("empty.yaml").violations().isEmpty());
     }
 
     @Test

@@ -66,4 +66,25 @@ public class PathSegments {
         }
         return segment.toLowerCase();
     }
+
+    /**
+     * Returns the last word of a segment, which is the part after the last dash, underscore, or uppercase letter.
+     * e.g. from 'getUsers', the last word is 'users'; from 'user-id', the last word is 'id'.
+     * @param segment the segment to analyze
+     * @return the last word of the segment
+     */
+    public static String lastWord(String segment) {
+        String word = segment;
+        int cut = Math.max(word.lastIndexOf('-'), word.lastIndexOf('_'));
+        if (cut >= 0) {
+            word = word.substring(cut + 1);
+        }
+        for (int i = word.length() - 1; i > 0; i--) {
+            if (Character.isUpperCase(word.charAt(i))) {
+                word = word.substring(i);
+                break;
+            }
+        }
+        return word.toLowerCase();
+    }
 }
