@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Rule R1.3: Path uses lowercase letters and hyphens, no file extension, no trailing slash.
+ * Rule R1.3: Path uses lowercase letters, no underscore, no file extension, no trailing slash.
  *
- * <p>Element: each path. Compliant if every path segment has lowercase letters, uses hyphens and not underscore as a word separator,
+ * <p>Element: each path. Compliant if every path segment has lowercase letters, no underscore as a word separator,
  * and no file extension such as {@code .json}. The path must not have a trailing slash {@code /} (the root path {@code /} is allowed).
  * A dot alone does not count as extension, so microsoft.sql is compliant and report.json is not.
  *
@@ -20,13 +20,13 @@ import java.util.List;
  * restapiscore is a prototype, a segment such as userprofiles (two words without a hyphen) and an uncommon extension are not found.
  * @see <a href="https://arxiv.org/pdf/2402.13710">RESTRuler 2024</a>
  */
-public class R13PathLowercaseHyphenNoTrailSlashFileExt implements Rule {
+public class R13PathLowercaseNoUnderscoreTrailSlashFileExt implements Rule {
 
     private static final RuleCard CARD = new RuleCard(
-            "R1.3", Dimension.D1, "Path uses lowercase letters and hyphens, no file extension, no trailing slash",
+            "R1.3", Dimension.D1, "Path uses lowercase letters, no underscore, no file extension, no trailing slash",
             "Massé 2011; RESTRuler",
-            "Each path is compliant if every literal segment has no uppercase letters, no underscore, no file extension and no trailing slash.",
-            "Use lowercase letters and hyphens in paths, avoid file extensions, and do not end paths with a trailing slash.");
+            "Each path is compliant if every literal segment has lowercase letters, no underscore, no file extension and no trailing slash.",
+            "Use lowercase letters and hyphens instead of underscores in paths, avoid file extensions, and do not end paths with a trailing slash.");
 
     private static final List<String> EXTENSIONS = List.of("json", "xml", "html", "htm", "csv", "txt",
             "pdf", "yaml", "yml", "png", "jpg", "jpeg", "gif", "svg", "zip");

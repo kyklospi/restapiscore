@@ -10,13 +10,13 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class R13PathLowercaseHyphenNoTrailSlashFileExtTest {
+public class R13PathLowercaseNoUnderscoreTrailSlashFileExtTest {
     private ElementCounter run(String fileName) throws Exception {
         URL resource = getClass().getResource("/rules/R1.3/" + fileName);
         assertNotNull(resource);
         Path file = Path.of(resource.toURI());
         SpecLoader.ParsedResult result = SpecLoader.load(file);
-        return new R13PathLowercaseHyphenNoTrailSlashFileExt().evaluate(new ApiModel(result.openApi()));
+        return new R13PathLowercaseNoUnderscoreTrailSlashFileExt().evaluate(new ApiModel(result.openApi()));
     }
 
     @Test
