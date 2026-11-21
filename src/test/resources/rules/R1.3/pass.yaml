@@ -1,0 +1,8 @@
+openapi: 3.0.3
+info: {title: Fixture, version: "1"}
+paths:
+  /users/{id}: {get: {responses: {'200': {description: OK}}}}
+  /v1/users: {get: {responses: {'200': {description: OK}}}}
+  /user-profiles/{id}/order-items: {get: {responses: {'200': {description: OK}}}}
+  /microsoft.sql/servers: {get: {responses: {'200': {description: OK}}}}
+  /: {get: {responses: {'200': {description: OK}}}}

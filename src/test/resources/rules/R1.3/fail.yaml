@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info: {title: Fixture, version: "1"}
+paths:
+  /Users/{id}: {get: {responses: {'200': {description: OK}}}}
+  /user_profiles: {post: {responses: {'200': {description: OK}}}}
+  /files/report.json: {get: {responses: {'200': {description: OK}}}}
+  /users/: {get: {responses: {'200': {description: OK}}}}

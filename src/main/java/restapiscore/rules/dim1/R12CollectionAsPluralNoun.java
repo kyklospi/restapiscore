@@ -15,8 +15,10 @@ import java.util.List;
  * {@code users} in {@code /users/{id}}. Compliant if the last word of the segment is plural.
  *
  * <p>Heuristic for English plurals: the last word ends with "s" or is in the irregular plural list, and it is
- * not in the list of singular words ending with "s". Known limits: a collection without an item path
- * ({@code /users} only) is not checked, a single resource such as {@code /users/{id}/profile} is skipped,
+ * not in the list of singular words ending with "s".
+ *
+ * <p>Known limits: a collection without an item path ({@code /users} only) is not checked,
+ * a single resource such as {@code /users/{id}/profile} is skipped,
  * plural forms that are not in the lists ({@code /cacti}) fail, and non-English resource names are not supported.
  */
 public class R12CollectionAsPluralNoun implements Rule {
