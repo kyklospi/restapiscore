@@ -21,9 +21,9 @@ import java.util.List;
  * @see <a href="https://arxiv.org/pdf/2402.13710">RESTRuler 2024</a>
  */
 public class R13PathLowercaseNoUnderscoreTrailSlashFileExt implements Rule {
-
+    private static final String RULE_ID = "R1.3";
     private static final RuleCard CARD = new RuleCard(
-            "R1.3", Dimension.D1, "Path uses lowercase letters, no underscore, no file extension, no trailing slash",
+            RULE_ID, Dimension.D1, "Path uses lowercase letters, no underscore, no file extension, no trailing slash",
             "Massé 2011; RESTRuler",
             "Each path is compliant if every literal segment has lowercase letters, no underscore, no file extension and no trailing slash.",
             "Use lowercase letters and hyphens instead of underscores in paths, avoid file extensions, and do not end paths with a trailing slash.");
@@ -54,7 +54,7 @@ public class R13PathLowercaseNoUnderscoreTrailSlashFileExt implements Rule {
             if (problems.isEmpty()) {
                 counter.pass();
             } else {
-                counter.fail(new Violation("R1.3", new Location(JsonPointers.path(path)),
+                counter.fail(new Violation(RULE_ID, new Location(JsonPointers.path(path)),
                         "Path " + path + ": " + String.join(", ", problems)));
             }
         }

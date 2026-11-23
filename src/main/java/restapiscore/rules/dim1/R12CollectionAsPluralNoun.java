@@ -22,8 +22,9 @@ import java.util.List;
  * plural forms that are not in the lists ({@code /cacti}) fail, and non-English resource names are not supported.
  */
 public class R12CollectionAsPluralNoun implements Rule {
+    private static final String RULE_ID = "R1.2";
     private static final RuleCard CARD = new RuleCard(
-            "R1.2", Dimension.D1, "Collections use plural nouns",
+            RULE_ID, Dimension.D1, "Collections use plural nouns",
             "Massé 2011; RESTRuler",
             "Each collection segment (a literal segment followed by a path parameter)" +
                     " is compliant if it is a plural noun.",
@@ -61,8 +62,8 @@ public class R12CollectionAsPluralNoun implements Rule {
                 if (isPlural(PathSegments.lastWord(segment))) {
                     counter.pass();
                 } else {
-                    counter.fail(new Violation("R1.2", new Location(JsonPointers.path(path)),
-                            "Collection name '" + segment + "' is not plural"));
+                    counter.fail(new Violation(RULE_ID, new Location(JsonPointers.path(path)),
+                            "Collection name '" + segment + "' is not a plural noun"));
                 }
             }
         }

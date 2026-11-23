@@ -3,6 +3,7 @@ package restapiscore.rules.dim1;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import restapiscore.rules.ElementCounter;
+import restapiscore.rules.Violation;
 import restapiscore.spec.ApiModel;
 import restapiscore.spec.SpecLoader;
 
@@ -41,6 +42,10 @@ class R11PathHasNoCRUDVerbTest {
         assertEquals("/paths/~1getUsers", counter.violations().getFirst().location().pointer());
         assertEquals("/paths/~1users~1create", counter.violations().get(1).location().pointer());
         assertEquals("/paths/~1register~1users~1{id}", counter.violations().getLast().location().pointer());
+
+        Violation v = counter.violations().getFirst();
+        assertEquals("R1.1", v.ruleId());
+        assertEquals("Path 'getUsers' starts with a CRUD verb", v.message());
     }
 
     @Test

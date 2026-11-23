@@ -3,6 +3,7 @@ package restapiscore.rules.dim1;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import restapiscore.rules.ElementCounter;
+import restapiscore.rules.Violation;
 import restapiscore.spec.ApiModel;
 import restapiscore.spec.SpecLoader;
 
@@ -37,6 +38,11 @@ public class R12CollectionAsPluralNounTest {
         assertEquals(2, counter.violations().size());
         assertEquals("/paths/~1user~1{id}", counter.violations().getFirst().location().pointer());
         assertEquals("/paths/~1users~1{id}~1address~1{addressId}", counter.violations().getLast().location().pointer());
+
+        Violation v = counter.violations().getFirst();
+        assertEquals("R1.2", v.ruleId());
+        assertEquals("Collection name 'user' is not a plural noun", v.message());
+
     }
 
     @Test

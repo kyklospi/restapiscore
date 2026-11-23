@@ -19,8 +19,9 @@ import java.util.List;
  * {@code /check} as in bank checks, {@code /list} as in a shopping list).
  */
 public class R11PathHasNoCRUDVerb implements Rule {
+    private static final String RULE_ID = "R1.1";
     private static final RuleCard CARD = new RuleCard(
-            "R1.1", Dimension.D1, "Path has no CRUD verb",
+            RULE_ID, Dimension.D1, "Path has no CRUD verb",
             "Massé 2011; RESTRuler",
             "Each path is compliant if no literal segment starts with a CRUD verb such as get, create or delete.",
             "Name resources with nouns and express the action through the HTTP method.");
@@ -58,8 +59,8 @@ public class R11PathHasNoCRUDVerb implements Rule {
                 counter.pass();
             } else {
                 Location location = new Location(JsonPointers.path(path));
-                String message = "Segment '" + verbSegment + "' starts with a CRUD verb";
-                counter.fail(new Violation("R1.1", location, message));
+                String message = "Path '" + verbSegment + "' starts with a CRUD verb";
+                counter.fail(new Violation(RULE_ID, location, message));
             }
         }
         return counter;
