@@ -1,5 +1,6 @@
 package restapiscore.rules;
 
+import restapiscore.config.Config;
 import restapiscore.spec.ApiModel;
 
 /**
@@ -16,7 +17,8 @@ public interface Rule {
      * Evaluates this rule against the given API model.
      *
      * @param model the API model to evaluate
+     * @param config the configuration to use for evaluation
      * @return the result of the evaluation
      */
-    ElementCounter evaluate(ApiModel model);
+    RuleResult evaluate(ApiModel model, Config config);
 }

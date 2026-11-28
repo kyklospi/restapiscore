@@ -1,7 +1,9 @@
 package restapiscore.rules.dim2;
 
 import io.swagger.v3.oas.models.PathItem;
+import restapiscore.config.Config;
 import restapiscore.rules.*;
+import restapiscore.scoring.RuleScorer;
 import restapiscore.spec.ApiModel;
 import restapiscore.spec.OperationRef;
 
@@ -27,7 +29,7 @@ public class R21GetHasNoReqBody implements Rule {
 
 
     @Override
-    public ElementCounter evaluate(ApiModel model) {
+    public RuleResult evaluate(ApiModel model, Config config) {
         ElementCounter counter = new ElementCounter();
         for (OperationRef op : model.operations(PathItem.HttpMethod.GET)) {
             if (op.operation().getRequestBody() == null) {
@@ -37,6 +39,7 @@ public class R21GetHasNoReqBody implements Rule {
                 counter.fail(new Violation(RULE_ID, op.location(), message));
             }
         }
-        return counter;
+        Score score = RuleScorer.score(counter.checked(), counter.compliant(), config.thresholds());
+        return new RuleResult(RULE_ID, score, counter.checked(), counter.compliant(), counter.violations(), null);
     }
 }

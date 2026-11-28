@@ -1,6 +1,8 @@
 package restapiscore.rules.dim1;
 
+import restapiscore.config.Config;
 import restapiscore.rules.*;
+import restapiscore.scoring.RuleScorer;
 import restapiscore.spec.ApiModel;
 import restapiscore.spec.JsonPointers;
 import restapiscore.spec.Location;
@@ -37,7 +39,7 @@ public class R13PathLowercaseNoUnderscoreTrailSlashFileExt implements Rule {
     }
 
     @Override
-    public ElementCounter evaluate(ApiModel model) {
+    public RuleResult evaluate(ApiModel model, Config config) {
         ElementCounter counter = new ElementCounter();
         for (String path : model.paths()) {
             List<String> problems = new ArrayList<>();
@@ -58,7 +60,8 @@ public class R13PathLowercaseNoUnderscoreTrailSlashFileExt implements Rule {
                         "Path " + path + ": " + String.join(", ", problems)));
             }
         }
-        return counter;
+        Score score = RuleScorer.score(counter.checked(), counter.compliant(), config.thresholds());
+        return new RuleResult(RULE_ID, score, counter.checked(), counter.compliant(), counter.violations(), null);
     }
 
     private boolean hasFileExtension(String segment) {

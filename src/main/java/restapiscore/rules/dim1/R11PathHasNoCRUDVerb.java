@@ -1,6 +1,8 @@
 package restapiscore.rules.dim1;
 
+import restapiscore.config.Config;
 import restapiscore.rules.*;
+import restapiscore.scoring.RuleScorer;
 import restapiscore.spec.ApiModel;
 import restapiscore.spec.JsonPointers;
 import restapiscore.spec.Location;
@@ -11,7 +13,7 @@ import java.util.List;
 /**
  * Rule R1.1: Path has no CRUD verb.
  *
- * <p>Element: each path. Compliant if no literal segment starts with a CRUD verb from the configured verb list.
+ * <p>Element: each path. Compliant if no literal segment starts with a CRUD verb from the verb list.
  *
  * <p>Heuristic: a segment "starts with a CRUD verb" when its first word (split at hyphens, underscores and camelCase
  * humps) equals a verb, so {@code getUsers} and {@code get-users} are violations while {@code settings} and
@@ -27,12 +29,12 @@ public class R11PathHasNoCRUDVerb implements Rule {
             "Name resources with nouns and express the action through the HTTP method.");
 
     /**
-     * List of verbs that are not allowed as the first word of a literal segment (Massé 2011), page 18).
+     * List of verbs that are not allowed as the first word of a literal segment (Massé 2011, page 18).
      * @see <a href="https://archive.org/details/restapidesignrul0000mass">Massé 2011</a>
      * This list is not exhaustive, but covers the most common verbs used in REST APIs.
      * do and make are included because they are too vague as a controller resource, and should be replaced with a more specific verb.
      */
-    private static final List<String> CRUD_VERBS = List.of("get", "retrieve", "fetch", "load", "find", "search",
+    private static final List<String> CRUD_VERBS = List.of("get", "retrieve", "fetch", "load", "find",
             "post", "create", "save", "make", "put", "update", "add", "delete", "remove", "patch", "do");
 
     /**
@@ -41,9 +43,9 @@ public class R11PathHasNoCRUDVerb implements Rule {
      * e.g. /students/morgan/register is allowed, but /register/students/morgan is not.
      * @see <a href="https://archive.org/details/restapidesignrul0000mass">Massé 2011</a>
      */
-    private static final List<String> ACTION_VERBS = List.of("register", "dedupe", "execute", "send", "receive",
-            "approve", "reject", "activate", "deactivate", "enable", "disable", "start", "stop", "pause", "resume", "cancel",
-            "confirm", "decline", "subscribe", "unsubscribe", "login", "logout", "authenticate", "authorize");
+    private static final List<String> ACTION_VERBS = List.of("register", "dedupe", "search", "execute", "send",
+            "receive", "approve", "reject", "activate", "deactivate", "enable", "disable", "start", "stop", "pause", "resume",
+            "cancel", "confirm", "decline", "subscribe", "unsubscribe", "login", "logout", "authenticate", "authorize");
 
     @Override
     public RuleCard card() {
@@ -51,7 +53,7 @@ public class R11PathHasNoCRUDVerb implements Rule {
     }
 
     @Override
-    public ElementCounter evaluate(ApiModel model) {
+    public RuleResult evaluate(ApiModel model, Config config) {
         ElementCounter counter = new ElementCounter();
         for (String path : model.paths()) {
             String verbSegment = findVerbSegment(path);
@@ -63,7 +65,8 @@ public class R11PathHasNoCRUDVerb implements Rule {
                 counter.fail(new Violation(RULE_ID, location, message));
             }
         }
-        return counter;
+        Score score = RuleScorer.score(counter.checked(), counter.compliant(), config.thresholds());
+        return new RuleResult(RULE_ID, score, counter.checked(), counter.compliant(), counter.violations(), null);
     }
 
     /**
